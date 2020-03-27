@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Organization;
 
 use App\Domain\AvailabilitiesDomain;
-use App\Domain\PlanningUtils;
 use App\Domain\DatePeriodCalculator;
+use App\Domain\PlanningUtils;
 use App\Domain\SkillSetDomain;
-use App\Entity\AvailabilityInterface;
 use App\Entity\CommissionableAsset;
-use App\Entity\User;
-use App\Repository\AvailabilityRepositoryInterface;
 use App\Repository\CommissionableAssetAvailabilityRepository;
 use App\Repository\CommissionableAssetRepository;
 use App\Repository\UserAvailabilityRepository;
