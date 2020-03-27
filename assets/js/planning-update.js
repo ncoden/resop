@@ -95,6 +95,43 @@ function generatePayload($planning) {
   return payload;
 }
 
+function dateSortPlanning(day, $planning) {
+  $planning.find('tbody.item-rows').each(function () {
+    var $tbody = $(this);
+
+    $tbody
+      .find('tr')
+      .sort(function (a, b) {
+        var $a = $(a);
+        var $b = $(b);
+
+        var aCount = $a.find('td[data-status="available"][data-day="' + day + '"]').length;
+        var bCount = $b.find('td[data-status="available"][data-day="' + day + '"]').length;
+
+        return aCount > bCount ? -1 : 1;
+      })
+      .appendTo($tbody);
+  });
+}
+
+function checkLastUpdate() {
+  if (document.hidden || !$('#alertLastUpdate').hasClass('d-none')) {
+    return;
+  }
+
+  $.ajax({
+    contentType: 'application/json',
+    method: 'GET',
+    dataType: 'json',
+    url: $('#planning-form').data('last-update-href') + window.location.search,
+    success: ({ lastUpdate }) => {
+      if (lastUpdate > $('#planning-form').data('loading-timestamp')) {
+        $('#alertLastUpdate').removeClass('d-none');
+      }
+    },
+  });
+}
+
 $(document).ready(function () {
   var $planning = $('.planning');
 
@@ -130,4 +167,11 @@ $(document).ready(function () {
   });
 
   $planning.find('input[type=checkbox]:checked').closest('.slot-box').addClass('checked');
+
+  $('#alertLastUpdate a').on('click', function (e) {
+    e.preventDefault();
+    location.reload(true);
+  });
+
+  setInterval(checkLastUpdate, 30000);
 });
