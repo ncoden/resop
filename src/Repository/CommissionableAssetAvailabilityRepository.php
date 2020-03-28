@@ -46,8 +46,7 @@ class CommissionableAssetAvailabilityRepository extends ServiceEntityRepository 
                 'end' => $end,
             ])
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findByOwnerAndDates(array $owners, \DateTimeInterface $start, \DateTimeInterface $end): array
@@ -62,8 +61,7 @@ class CommissionableAssetAvailabilityRepository extends ServiceEntityRepository 
                 'end' => $end,
             ])
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findLastUpdatedForEntities(array $availabilitables): string

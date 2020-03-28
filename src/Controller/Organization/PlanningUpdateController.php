@@ -63,6 +63,6 @@ class PlanningUpdateController extends AbstractController
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse(['success' => true, 'lastUpdate' => (int) (new \DateTime('now'))->format('U')]);
     }
 }
