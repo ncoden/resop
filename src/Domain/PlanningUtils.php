@@ -9,12 +9,13 @@ use App\Entity\CommissionableAsset;
 use App\Entity\User;
 use App\Form\Type\PlanningSearchType;
 use App\Repository\AvailabilityRepositoryInterface;
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class PlanningUtils
 {
-    public static function getFormFromRequest(FormFactory $formFactory, Request $request)
+    public static function getFormFromRequest(FormFactoryInterface $formFactory, Request $request): FormInterface
     {
         if (!$request->query->has('from')) {
             $request->query->set('from', (new \DateTimeImmutable('monday this week'))->format('Y-m-d\T00:00:00'));
@@ -74,7 +75,7 @@ abstract class PlanningUtils
         return $slots;
     }
 
-    public function splitAvailabilities(SkillSetDomain $skillSetDomain, array $usersAvailabilities, array $assetsAvailabilities): array
+    public static function splitAvailabilities(SkillSetDomain $skillSetDomain, array $usersAvailabilities, array $assetsAvailabilities): array
     {
         $result = []; // Ordered associative array
 

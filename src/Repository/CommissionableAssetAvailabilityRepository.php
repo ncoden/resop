@@ -66,7 +66,7 @@ class CommissionableAssetAvailabilityRepository extends ServiceEntityRepository 
         ;
     }
 
-    public function findLastUpdatedForEntities(array $availabilitables)
+    public function findLastUpdatedForEntities(array $availabilitables): string
     {
         $qb = $this->createQueryBuilder('ca');
 

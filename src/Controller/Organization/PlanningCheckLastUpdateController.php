@@ -44,13 +44,13 @@ class PlanningCheckLastUpdateController
         $form = PlanningUtils::getFormFromRequest($this->formFactory, $request);
         $data = $form->getData();
 
-        $users = $data['hideUsers'] ?? false ? [] : $this->userRepository->findByFilters($data);
-        $assets = $data['hideAssets'] ?? false ? [] : $this->assetRepository->findByFilters($data);
+        $users = $data['hideUsers'] ?? false ? [] : $this->userRepository->findByFilters($data, true);
+        $assets = $data['hideAssets'] ?? false ? [] : $this->assetRepository->findByFilters($data, true);
 
         $userLastUpdate = $this->userAvailabilityRepository->findLastUpdatedForEntities($users);
         $assetLastUpdate = $this->assetAvailabilityRepository->findLastUpdatedForEntities($assets);
 
-        $lastUpdate = (new \DateTime(max($userLastUpdate, $assetLastUpdate)))->format('U');
+        $lastUpdate = max((new \DateTime($userLastUpdate))->format('U'), (new \DateTime($assetLastUpdate))->format('U'));
 
         return new JsonResponse(['lastUpdate' => (int) $lastUpdate]);
     }
